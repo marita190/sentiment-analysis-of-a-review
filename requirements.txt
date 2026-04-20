@@ -1,6 +1,6 @@
 flask
-scikit-learn
 pandas
+scikit-learn
 joblib
 numpy
-flask-cors
+werkzeug
