@@ -114,7 +114,6 @@ def analyze():
         else:
             return jsonify({'error': f'Неизвестный метод: {method}'}), 400
         
-        # Сохраняем в историю
         reviews = load_reviews()
         review_record = {
             'text': result['text'],
@@ -227,6 +226,5 @@ def get_reviews():
         return jsonify({'error': f'Ошибка при загрузке отзывов: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    print("🚀 Сервер запущен на http://127.0.0.1:5000")
-    print("📁 Поддерживаемые форматы файлов: CSV, TXT, JSON")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
