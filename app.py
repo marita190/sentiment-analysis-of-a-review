@@ -7,14 +7,14 @@ from werkzeug.utils import secure_filename
 from dictionary_method import analyze_with_dictionary
 from knn_method import analyze_with_knn
 from trained_method import analyze_with_trained_model
+from rubert_method import analyze_with_rubert  # ← ДОБАВЛЕНО
 from storage import load_reviews, save_reviews
 
 app = Flask(__name__)
 
-# Только секретный ключ (без CSRF)
+# секретный ключ 
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 
-# Настройки для загрузки файлов
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv', 'txt', 'json'}
 
@@ -108,6 +108,9 @@ def analyze():
         elif method == 'knn':
             result = analyze_with_knn(text)
             result['method_used'] = 'knn'
+        elif method == 'rubert':
+            result = analyze_with_rubert(text) 
+            result['method_used'] = 'rubert'
         elif method == 'logreg':
             result = analyze_with_trained_model(text)
             result['method_used'] = 'logreg'
@@ -171,6 +174,8 @@ def upload_file():
                 result = analyze_with_dictionary(text)
             elif method == 'knn':
                 result = analyze_with_knn(text)
+            elif method == 'rubert':
+                result = analyze_with_rubert(text)  # ← ДОБАВЛЕНО
             elif method == 'logreg':
                 result = analyze_with_trained_model(text)
             else:
@@ -229,4 +234,3 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
-
